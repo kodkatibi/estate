@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login']);
+
+Route::get('address/{postcode}', [\App\Http\Controllers\AddressController::class, 'show'])->middleware('jwt.verify');
