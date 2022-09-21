@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\AuthInterface;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 
@@ -19,7 +20,14 @@ class AuthRepository implements AuthInterface
 
     public function register(array $data)
     {
-        // TODO: Implement register() method.
+        User::query()->firstOrCreate([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+        dd($data);
+        return $this->login($data);
     }
 
     public function logout()
@@ -31,7 +39,8 @@ class AuthRepository implements AuthInterface
     public function registerRules(): array
     {
         return [
-            'name' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'password_confirmation' => 'required|same:password',

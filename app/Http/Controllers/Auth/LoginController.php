@@ -21,6 +21,15 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-       return $this->authRepository->login($credentials);
+        return $this->authRepository->login($credentials);
+    }
+
+    public function register(Request $request)
+    {
+        $validated = $this->validate($request, $this->authRepository->registerRules());
+
+        $credentials = $request->only('first_name', 'last_name', 'email', 'password');
+
+        return $this->authRepository->register($credentials);
     }
 }
