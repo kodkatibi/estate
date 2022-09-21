@@ -10,50 +10,47 @@ class AppointmentRepository implements AppointmentInterface
 
     public function create(array $data)
     {
-        $validatedData = validator($data, $this->createRules());
-        if ($validatedData->fails()) {
-            return $validatedData->errors();
-        }
-
-        $data['estimated_distance'] = $this->calculateDistance($data);
         return Appointment::create($data);
     }
 
     public function update(int $id, array $data)
     {
-        // TODO: Implement update() method.
+        $appointment = Appointment::find($id);
+        $appointment->update($data);
+        return $appointment;
     }
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        $appointment = Appointment::find($id);
+        return $appointment->delete();
     }
 
     public function find(int $id)
     {
-        // TODO: Implement find() method.
+        return Appointment::find($id);
     }
 
     public function all()
     {
-        // TODO: Implement all() method.
+        return Appointment::all();
     }
 
     public function findByEmployeeId(int $id)
     {
-        // TODO: Implement findByEmployeeId() method.
+        return Appointment::where('employee_id', $id)->get();
     }
 
     public function findByCustomerId(int $id)
     {
-        // TODO: Implement findByCustomerId() method.
+        return Appointment::where('customer_id', $id)->get();
     }
 
     /**
      * @param array $data
      * @return float|int
      */
-    public function calculateDistance(array $data): float|int
+    public function calculateDistance(array $data, int $earthRadius = 6371000): float|int
     {
 
         // convert from degrees to radians
@@ -68,7 +65,7 @@ class AppointmentRepository implements AppointmentInterface
         $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
 
         $angle = atan2(sqrt($a), $b);
-        return $angle * $data['earthRadius'];
+        return $angle * $earthRadius;
     }
 
     public function createRules(): array
@@ -76,12 +73,11 @@ class AppointmentRepository implements AppointmentInterface
         return [
             'customer_id' => 'required|integer',
             'employee_id' => 'required|integer',
-            'address_id' => 'required|integer',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'duration' => 'required|integer',
-            'price' => 'required|numeric',
-            'status' => 'required|integer',
+            'begin_address_id' => 'required|integer',
+            'end_address_id' => 'required|integer',
+            'start' => 'required|datetime',
+            'end' => 'required|datetime',
+            'estimate_duration' => 'required|integer',
         ];
     }
 
@@ -90,12 +86,11 @@ class AppointmentRepository implements AppointmentInterface
         return [
             'customer_id' => 'integer',
             'employee_id' => 'integer',
-            'address_id' => 'integer',
-            'date' => 'date',
-            'time' => 'date_format:H:i',
-            'duration' => 'integer',
-            'price' => 'numeric',
-            'status' => 'integer',
+            'begin_address_id' => 'integer',
+            'end_address_id' => 'integer',
+            'start' => 'datetime',
+            'end' => 'datetime',
+            'estimate_duration' => 'integer',
         ];
     }
 

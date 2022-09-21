@@ -18,7 +18,7 @@ interface AppointmentInterface
 
     public function findByCustomerId(int $id);
 
-    public function calculateDistance(array $data);
+    public function calculateDistance(array $data, int $earthRadius = 6371000);
 
     public function createRules(): array;
 
