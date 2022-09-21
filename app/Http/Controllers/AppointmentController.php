@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\AppointmentRepository;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Request;
 
 class AppointmentController extends Controller
@@ -26,7 +27,8 @@ class AppointmentController extends Controller
 
     public function delete(int $id)
     {
-        return $this->response($this->appointmentRepository->delete($id));
+        $this->appointmentRepository->delete($id);
+        return $this->response(null,Response::HTTP_NO_CONTENT);
     }
 
     public function show(int $id)

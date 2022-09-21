@@ -28,7 +28,7 @@ class AppointmentRepository implements AppointmentInterface
 
     public function find(int $id)
     {
-        return Appointment::find($id);
+        return Appointment::findOrFail($id);
     }
 
     public function all()
