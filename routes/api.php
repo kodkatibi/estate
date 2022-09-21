@@ -14,9 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::get('address/{postcode}', 'App\Http\Controllers\AddressController@show');
+Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login']);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\AppointmentRepository;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
