@@ -11,7 +11,9 @@ class AuthRepository implements AuthInterface
 
     public function login(array $data)
     {
-        $this->getToken($data['email'], $data['password']);
+        $token = $this->getToken($data['email'], $data['password']);
+        Auth::user()->token = $token;
+        Auth::user()->save();
         return Auth::user();
     }
 
