@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\AuthRepository;
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     private AuthRepository $authRepository;
 
@@ -21,15 +21,20 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        return $this->authRepository->login($credentials);
+        return $this->response($this->authRepository->login($credentials));
     }
 
     public function register(Request $request)
     {
-        $validated = $this->validate($request, $this->authRepository->registerRules());
+        $this->validate($request, $this->authRepository->registerRules());
 
         $credentials = $request->only('first_name', 'last_name', 'email', 'password');
 
-        return $this->authRepository->register($credentials);
+        return $this->response($this->authRepository->register($credentials));
+    }
+
+    public function logout()
+    {
+        return $this->response($this->authRepository->logout());
     }
 }

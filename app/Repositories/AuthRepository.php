@@ -26,13 +26,13 @@ class AuthRepository implements AuthInterface
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-        dd($data);
         return $this->login($data);
     }
 
     public function logout()
     {
-        // TODO: Implement logout() method.
+        Auth::logout();
+        return [];
     }
 
 
